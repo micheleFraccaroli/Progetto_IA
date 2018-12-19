@@ -1,0 +1,25 @@
+2018-12-19 18:10:13.843906: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-12-19 18:10:14.504945: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: Tesla K80 major: 3 minor: 7 memoryClockRate(GHz): 0.8235
+pciBusID: 0000:06:00.0
+totalMemory: 11.17GiB freeMemory: 11.10GiB
+2018-12-19 18:10:14.738886: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 1 with properties: 
+name: Tesla K80 major: 3 minor: 7 memoryClockRate(GHz): 0.8235
+pciBusID: 0000:07:00.0
+totalMemory: 11.17GiB freeMemory: 11.10GiB
+2018-12-19 18:10:14.740111: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0, 1
+2018-12-19 18:10:15.519269: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-12-19 18:10:15.519722: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 1 
+2018-12-19 18:10:15.519978: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N Y 
+2018-12-19 18:10:15.520140: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 1:   Y N 
+2018-12-19 18:10:15.520833: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/device:GPU:0 with 10759 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:06:00.0, compute capability: 3.7)
+2018-12-19 18:10:15.717719: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/device:GPU:1 with 10759 MB memory) -> physical GPU (device: 1, name: Tesla K80, pci bus id: 0000:07:00.0, compute capability: 3.7)
+2018-12-19 18:10:16.882324: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0, 1
+2018-12-19 18:10:16.882893: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-12-19 18:10:16.883311: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 1 
+2018-12-19 18:10:16.883647: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N Y 
+2018-12-19 18:10:16.883902: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 1:   Y N 
+2018-12-19 18:10:16.884374: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10759 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:06:00.0, compute capability: 3.7)
+2018-12-19 18:10:16.884784: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 10759 MB memory) -> physical GPU (device: 1, name: Tesla K80, pci bus id: 0000:07:00.0, compute capability: 3.7)
+/opt/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
