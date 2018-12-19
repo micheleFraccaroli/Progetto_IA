@@ -17,7 +17,7 @@ from tensorflow.python.keras.callbacks import TensorBoard
 from tensorflow.python.keras.applications.inception_v3 import InceptionV3
 from tensorflow.python.keras import backend as K
 
-K.tensorflow_backend._get_available_gpus()
+#K.tensorflow_backend._get_available_gpus()
 if K.backend()=='tensorflow':
     K.set_image_dim_ordering("th")
 
@@ -68,7 +68,7 @@ def model_cnn():
 	model.add(Dropout(0.5))
 	model.add(Dense(512))
 	model.add(Dropout(0.5))
-	model.add(Dense(num_classes))
+	model.add(Dense(num_classes+1))
 	model.add(Activation('softmax'))
 	# -- end network --
 
