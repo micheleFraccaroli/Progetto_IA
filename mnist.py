@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 from scipy.misc import toimage
 from tensorflow import keras
-from tensorflow.python.keras.datasets import cifar10, mnist
+#from tensorflow.python.keras.datasets import mnist
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras.models import Sequential, load_model, Model, model_from_json
 from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
@@ -27,7 +27,13 @@ num_classes = 10
 batch_size = 96
 epochs = 300
 
-(X,Y),(X_test,Y_test) = mnist.load_data()
+#(X,Y),(X_test,Y_test) = mnist.load_data()
+data = np.load('mnist.npz')
+X = data['x_train']
+Y = data['y_train']
+X_test = data['x_test']
+Y_test = data['y_test']
+
 if K.image_data_format() == 'channels_first':
 	X = X.reshape(X.shape[0], 1, 28, 28)
 	X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
