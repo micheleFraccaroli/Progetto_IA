@@ -25,7 +25,7 @@ print("GPU: " + str(tf.test.is_gpu_available()))
 
 num_classes = 10+1
 batch_size = 96
-epochs = 300
+epochs = 50
 
 #(X,Y),(X_test,Y_test) = mnist.load_data()
 data = np.load('mnist.npz')
