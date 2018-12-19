@@ -7,4 +7,4 @@
 
 module load anaconda/3 cuda/9.0 cudnn/7.0
 
-python3 bird_kerasCNN.py
+python3 mnist.py
