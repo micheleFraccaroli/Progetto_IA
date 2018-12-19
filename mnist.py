@@ -23,7 +23,7 @@ if K.backend()=='tensorflow':
 
 print("GPU: " + str(tf.test.is_gpu_available()))
 
-num_classes = 10
+num_classes = 10+1
 batch_size = 96
 epochs = 300
 
@@ -34,10 +34,12 @@ Y = data['y_train']
 X_test = data['x_test']
 Y_test = data['y_test']
 
-if K.image_data_format() == 'channels_first':
-	X = X.reshape(X.shape[0], 1, 28, 28)
-	X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
-	input_shape = (1, 28, 28)
+#if K.image_data_format() == 'channels_first':
+print("X shape[0] --> " + str(X.shape[0]))
+print("X shape --> " + str(X.shape))
+X = X.reshape(X.shape[0], 28, 28,1)
+X_test = X_test.reshape(X_test.shape[0],28, 28,1)
+input_shape = (28, 28,1)
 
 # Convert class vectors to binary class matrices.
 Y = np_utils.to_categorical(Y, num_classes)
@@ -51,7 +53,7 @@ X_test /= 255
 # -- --
 def model_cnn():
 	model = Sequential()
-	model.add(Conv2D(32, (3, 3), input_shape=input_shape))
+	model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
 	model.add(Activation('relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 
@@ -74,7 +76,7 @@ def model_cnn():
 	model.add(Dropout(0.5))
 	model.add(Dense(512))
 	model.add(Dropout(0.5))
-	model.add(Dense(num_classes+1))
+	model.add(Dense(num_classes))
 	model.add(Activation('softmax'))
 	# -- end network --
 
