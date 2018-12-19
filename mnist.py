@@ -88,19 +88,19 @@ def model_cnn():
 def training():
 	cnn_i = model_cnn()
 	tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
-	#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
+	cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
 
-	print("\n----- Real-time data augmentation -----\n")
-	datagen = ImageDataGenerator(
-		rotation_range=40,
-        rescale=1./255,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest')
+	# print("\n----- Real-time data augmentation -----\n")
+	# datagen = ImageDataGenerator(
+	# 	rotation_range=40,
+ #        rescale=1./255,
+ #        shear_range=0.2,
+ #        zoom_range=0.2,
+ #        horizontal_flip=True,
+ #        fill_mode='nearest')
 
-	datagen.fit(X)
-	cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
+	# datagen.fit(X)
+	# cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
 
 	scores = cnn_i.evaluate(X_test, Y_test)
 	print('Loss: %.3f' % scores[0])
