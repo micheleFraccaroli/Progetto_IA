@@ -19,7 +19,7 @@ from tensorflow.python.keras import backend as K
 
 #K.tensorflow_backend._get_available_gpus()
 if K.backend()=='tensorflow':
-    K.set_image_data_format("channel_last")
+    K.set_image_data_format("channels_last")
 
 print("GPU: " + str(tf.test.is_gpu_available()))
 
