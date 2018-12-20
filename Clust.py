@@ -25,7 +25,7 @@ class Clust:
 
 	print("GPU: " + str(tf.test.is_gpu_available()))
 
-	def model_cnn(self):
+	def supports(self):
 		num_classes = 10+1
 		batch_size = 96
 		epochs = 50
@@ -52,8 +52,11 @@ class Clust:
 		X  /= 255
 		X_test /= 255
 
-		# Architecture of neural network
-		# -- --
+		return X,Y,X_test,Y_test,num_classes,batch_size,epochs
+
+	# Architecture of neural network
+	# -- --
+	def model_cnn(self,X,epochs):
 		model = Sequential()
 		model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
 		model.add(Activation('relu'))
@@ -87,8 +90,8 @@ class Clust:
 
 
 	# Training
-	def training(self):
-		cnn_i = self.model_cnn()
+	def training(self,X,Y,X_test,Y_test,num_classes,batch_size,epochs):
+		cnn_i = self.model_cnn(X,epochs)
 		tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 		#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
 
@@ -119,4 +122,6 @@ class Clust:
 
 if __name__ == '__main__':
 	clust = Clust()
-	clust.training()
+
+	X,Y,X_test,Y_test,num_classes,batch_size,epochs = clust.supports()
+	clust.training(X,Y,X_test,Y_test,num_classes,batch_size,epochs)
