@@ -28,7 +28,7 @@ class Clust:
 	def supports(self):
 		num_classes = 10+1
 		batch_size = 96
-		epochs = 50
+		epochs = 30
 
 		#(X,Y),(X_test,Y_test) = mnist.load_data()
 		data = np.load('mnist.npz')
@@ -122,7 +122,7 @@ class Clust:
 
 	# Training
 	def training(self,X,Y,X_test,Y_test,num_classes,batch_size,epochs):
-		cnn_i = self.model_cnn(X,epochs)
+		cnn_i = self.model_cnn(X,epochs,num_classes)
 		tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 		#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
 
