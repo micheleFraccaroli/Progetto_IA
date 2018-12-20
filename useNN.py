@@ -42,7 +42,6 @@ class useNN:
 
 		#if K.image_data_format() == 'channels_first':
 		#X = X.reshape(X.shape[0], 28, 28,1)
-		print(X_test.shape[0])
 		X_test = X_test.reshape(X_test.shape[0],28, 28,1)
 
 		# # Convert class vectors to binary class matrices.

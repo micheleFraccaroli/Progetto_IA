@@ -56,56 +56,56 @@ class Clust:
 
 	# Architecture of neural network
 	# -- --
-	def model_cnn(self,X,epochs):
+	def model_cnn(self,X,epochs, num_classes):
 		model = Sequential()
-		# model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
-		# model.add(Activation('relu'))
-		# model.add(MaxPooling2D(pool_size=(2, 2)))
-
-		# model.add(Conv2D(64,(3,3)))
-		# model.add(Activation('relu'))
-		# model.add(Conv2D(64,(3,3)))
-		# model.add(Activation('relu'))
-		# model.add(Dropout(0.5))
-		# model.add(Conv2D(64,(3,3)))
-		# model.add(Activation('relu'))
-		# model.add(Conv2D(64,(3,3)))
-		# model.add(Activation('relu'))
-		# model.add(MaxPooling2D(pool_size=(2, 2)))
-
-		# model.add(Flatten())
-		# model.add(Dense(128))
-		# model.add(Activation('relu'))
-
-		# model.add(Dropout(0.5))
-		# model.add(Dense(num_classes))
-		# model.add(Activation('softmax'))
 		model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
-		model.add(BatchNormalization(axis=-1))
 		model.add(Activation('relu'))
-		model.add(Conv2D(32, (3, 3)))
-		model.add(BatchNormalization(axis=-1))
-		model.add(Activation('relu'))
-		model.add(MaxPooling2D(pool_size=(2,2)))
+		model.add(MaxPooling2D(pool_size=(2, 2)))
 
-		model.add(Conv2D(64,(3, 3)))
-		model.add(BatchNormalization(axis=-1))
+		model.add(Conv2D(64,(3,3)))
 		model.add(Activation('relu'))
-		model.add(Conv2D(64, (3, 3)))
-		model.add(BatchNormalization(axis=-1))
+		model.add(Conv2D(64,(3,3)))
 		model.add(Activation('relu'))
-		model.add(MaxPooling2D(pool_size=(2,2)))
+		model.add(Dropout(0.5))
+		model.add(Conv2D(64,(3,3)))
+		model.add(Activation('relu'))
+		model.add(Conv2D(64,(3,3)))
+		model.add(Activation('relu'))
+		model.add(MaxPooling2D(pool_size=(2, 2)))
 
 		model.add(Flatten())
-
-		# Fully connected layer
-		model.add(Dense(512))
-		model.add(BatchNormalization())
+		model.add(Dense(128))
 		model.add(Activation('relu'))
-		model.add(Dropout(0.2))
-		model.add(Dense(num_classes))
 
+		model.add(Dropout(0.5))
+		model.add(Dense(num_classes))
 		model.add(Activation('softmax'))
+		# model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
+		# model.add(BatchNormalization(axis=-1))
+		# model.add(Activation('relu'))
+		# model.add(Conv2D(32, (3, 3)))
+		# model.add(BatchNormalization(axis=-1))
+		# model.add(Activation('relu'))
+		# model.add(MaxPooling2D(pool_size=(2,2)))
+
+		# model.add(Conv2D(64,(3, 3)))
+		# model.add(BatchNormalization(axis=-1))
+		# model.add(Activation('relu'))
+		# model.add(Conv2D(64, (3, 3)))
+		# model.add(BatchNormalization(axis=-1))
+		# model.add(Activation('relu'))
+		# model.add(MaxPooling2D(pool_size=(2,2)))
+
+		# model.add(Flatten())
+
+		# # Fully connected layer
+		# model.add(Dense(512))
+		# model.add(BatchNormalization())
+		# model.add(Activation('relu'))
+		# model.add(Dropout(0.2))
+		# model.add(Dense(num_classes))
+
+		# model.add(Activation('softmax'))
 		# -- end network --
 
 		# Compiling the model
