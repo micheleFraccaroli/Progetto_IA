@@ -58,27 +58,53 @@ class Clust:
 	# -- --
 	def model_cnn(self,X,epochs):
 		model = Sequential()
-		model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
-		model.add(Activation('relu'))
-		model.add(MaxPooling2D(pool_size=(2, 2)))
+		# model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
+		# model.add(Activation('relu'))
+		# model.add(MaxPooling2D(pool_size=(2, 2)))
 
-		model.add(Conv2D(64,(3,3)))
+		# model.add(Conv2D(64,(3,3)))
+		# model.add(Activation('relu'))
+		# model.add(Conv2D(64,(3,3)))
+		# model.add(Activation('relu'))
+		# model.add(Dropout(0.5))
+		# model.add(Conv2D(64,(3,3)))
+		# model.add(Activation('relu'))
+		# model.add(Conv2D(64,(3,3)))
+		# model.add(Activation('relu'))
+		# model.add(MaxPooling2D(pool_size=(2, 2)))
+
+		# model.add(Flatten())
+		# model.add(Dense(128))
+		# model.add(Activation('relu'))
+
+		# model.add(Dropout(0.5))
+		# model.add(Dense(num_classes))
+		# model.add(Activation('softmax'))
+		model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
+		model.add(BatchNormalization(axis=-1))
 		model.add(Activation('relu'))
-		model.add(Conv2D(64,(3,3)))
+		model.add(Conv2D(32, (3, 3)))
+		model.add(BatchNormalization(axis=-1))
 		model.add(Activation('relu'))
-		model.add(Dropout(0.5))
-		model.add(Conv2D(64,(3,3)))
+		model.add(MaxPooling2D(pool_size=(2,2)))
+
+		model.add(Conv2D(64,(3, 3)))
+		model.add(BatchNormalization(axis=-1))
 		model.add(Activation('relu'))
-		model.add(Conv2D(64,(3,3)))
+		model.add(Conv2D(64, (3, 3)))
+		model.add(BatchNormalization(axis=-1))
 		model.add(Activation('relu'))
-		model.add(MaxPooling2D(pool_size=(2, 2)))
+		model.add(MaxPooling2D(pool_size=(2,2)))
 
 		model.add(Flatten())
-		model.add(Dense(128))
-		model.add(Activation('relu'))
 
-		model.add(Dropout(0.5))
+		# Fully connected layer
+		model.add(Dense(512))
+		model.add(BatchNormalization())
+		model.add(Activation('relu'))
+		model.add(Dropout(0.2))
 		model.add(Dense(num_classes))
+
 		model.add(Activation('softmax'))
 		# -- end network --
 
@@ -102,12 +128,8 @@ class Clust:
 
 		print("\n----- Real-time data augmentation -----\n")
 		datagen = ImageDataGenerator(
-			rotation_range=40,
-	        rescale=1./255,
-	        shear_range=0.2,
-	        zoom_range=0.2,
-	        horizontal_flip=True,
-	        fill_mode='nearest')
+			rotation_range=8, width_shift_range=0.08, shear_range=0.3,
+                         height_shift_range=0.08, zoom_range=0.08)
 
 		datagen.fit(X)
 		cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
