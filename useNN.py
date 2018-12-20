@@ -13,7 +13,7 @@ from Load_Module import Load_Module
 
 class useNN:
 
-	def show_imgs(X,lab):
+	def show_imgs(self,X,lab):
 	    pyplot.figure(1)
 	    k = 0
 	    for i in range(0,4):
@@ -68,7 +68,7 @@ class useNN:
 		print("Indici: " + str(indices) + "\n")
 		lab = [labels[x] for x in indices]
 		#print("--- " + str(lab) + " ---\n")
-		show_imgs(X_test[:16],lab)
+		self.show_imgs(X_test[:16],lab)
 
 if __name__ == "__main__":
 	 using = useNN()

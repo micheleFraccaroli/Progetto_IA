@@ -19,7 +19,9 @@ class Load_Module:
 			loaded = image.load_img(img_path)
 			scalesize = (28,28)
 			x_scaled = loaded.resize(scalesize, PIL.Image.ANTIALIAS)
-			x = np.array(x_scaled)
+			#print(x_scaled.convert('L').mode)
+			x = np.array(x_scaled.convert('L'))
+			#print(x.shape)
 			data.append(x)
 
 		print("DATA TYPE  → " + str(type(data)))
@@ -27,3 +29,7 @@ class Load_Module:
 		print("DATA SHAPE → " + str(data.shape))
 		
 		return data
+
+if __name__ == '__main__':
+	l = Load_Module()
+	l.loading()

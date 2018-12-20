@@ -39,9 +39,9 @@ class Clust:
 	#if K.image_data_format() == 'channels_first':
 	print("X shape[0] --> " + str(X.shape[0]))
 	print("X shape --> " + str(X.shape))
-	X = X.reshape(X.shape[0],28,28,3)
-	X_test = X_test.reshape(X_test.shape[0],28,28,3)
-	input_shape = (28,28,3)
+	X = X.reshape(X.shape[0],28,28,1)
+	X_test = X_test.reshape(X_test.shape[0],28,28,1)
+	input_shape = (28,28,1)
 
 	# Convert class vectors to binary class matrices.
 	Y = np_utils.to_categorical(Y, num_classes)
@@ -90,19 +90,19 @@ class Clust:
 	def training(self):
 		cnn_i = model_cnn()
 		tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
-		cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
+		#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
 
-		# print("\n----- Real-time data augmentation -----\n")
-		# datagen = ImageDataGenerator(
-		# 	rotation_range=40,
-	 #        rescale=1./255,
-	 #        shear_range=0.2,
-	 #        zoom_range=0.2,
-	 #        horizontal_flip=True,
-	 #        fill_mode='nearest')
+		print("\n----- Real-time data augmentation -----\n")
+		datagen = ImageDataGenerator(
+			rotation_range=40,
+	        rescale=1./255,
+	        shear_range=0.2,
+	        zoom_range=0.2,
+	        horizontal_flip=True,
+	        fill_mode='nearest')
 
-		# datagen.fit(X)
-		# cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
+		datagen.fit(X)
+		cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
 
 		scores = cnn_i.evaluate(X_test, Y_test)
 		print('Loss: %.3f' % scores[0])
