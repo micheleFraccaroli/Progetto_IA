@@ -17,6 +17,16 @@ from tensorflow.python.keras.callbacks import TensorBoard
 from tensorflow.python.keras.applications.inception_v3 import InceptionV3
 from tensorflow.python.keras import backend as K
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    MAGENTA = '\033[1;35m'
+    CYAN = '\033[1;36m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+
 class Clust:
 
 	#K.tensorflow_backend._get_available_gpus()
@@ -28,7 +38,7 @@ class Clust:
 	def supports(self):
 		num_classes = 10+1
 		batch_size = 96
-		epochs = 80
+		epochs = 30
 
 		#(X,Y),(X_test,Y_test) = mnist.load_data()
 		data = np.load('mnist.npz')
@@ -38,8 +48,8 @@ class Clust:
 		Y_test = data['y_test']
 
 		#if K.image_data_format() == 'channels_first':
-		print("X shape[0] --> " + str(X.shape[0]))
-		print("X shape --> " + str(X.shape))
+		# print("X shape[0] --> " + str(X.shape[0]))
+		# print("X shape --> " + str(X.shape))
 		X = X.reshape(X.shape[0],28,28,1)
 		X_test = X_test.reshape(X_test.shape[0],28,28,1)
 		input_shape = (28,28,1)
@@ -74,9 +84,7 @@ class Clust:
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 
 		model.add(Flatten())
-		model.add(Dropout(0.5))
-		model.add(Dense(512))
-		model.add(BatchNormalization())
+		model.add(Dense(128))
 		model.add(Activation('relu'))
 
 		model.add(Dropout(0.5))
@@ -112,8 +120,8 @@ class Clust:
 
 		# Compiling the model
 		#opt = RMSprop(lr=0.0001, decay=1e-6)
-		# lrate = 0.01
-		# decay = lrate/epochs
+		#lrate = 0.01
+		#decay = lrate/epochs
 		#sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 		model.compile(optimizer='adam',
 			loss='categorical_crossentropy',
@@ -129,7 +137,8 @@ class Clust:
 		#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
 
 		print("\n----- Real-time data augmentation -----\n")
-		datagen = ImageDataGenerator(height_shift_range=4, zoom_range=0.1)
+		datagen = ImageDataGenerator(
+			height_shift_range=2, zoom_range=0.08)
 
 		datagen.fit(X)
 		cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
@@ -148,7 +157,14 @@ class Clust:
 
 
 if __name__ == '__main__':
-	clust = Clust()
 
+	print(bcolors.MAGENTA + "_________ .__                  __    " + bcolors.ENDC)
+	print(bcolors.MAGENTA + "\_   ___ \|  |  __ __  _______/  |_  " + bcolors.ENDC)
+	print(bcolors.OKBLUE + "/    \  \/|  | |  |  \/  ___/\   __\ " + bcolors.ENDC)
+	print(bcolors.OKBLUE + "\     \___|  |_|  |  /\___ \  |  |   " + bcolors.ENDC)
+	print(bcolors.CYAN + " \______  /____/____//____  > |__|   " + bcolors.ENDC)
+	print(bcolors.CYAN + "  \/                      \/         " + bcolors.ENDC)
+
+	clust = Clust()
 	X,Y,X_test,Y_test,num_classes,batch_size,epochs = clust.supports()
 	clust.training(X,Y,X_test,Y_test,num_classes,batch_size,epochs)
