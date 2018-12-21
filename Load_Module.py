@@ -24,9 +24,9 @@ class Load_Module:
 			#print(x.shape)
 			data.append(x)
 
-		print("DATA TYPE  → " + str(type(data)))
+		#print("DATA TYPE  → " + str(type(data)))
 		data = np.array(data)
-		print("DATA SHAPE → " + str(data.shape))
+		#print("DATA SHAPE → " + str(data.shape))
 		
 		return data
 

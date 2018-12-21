@@ -28,7 +28,7 @@ class Clust:
 	def supports(self):
 		num_classes = 10+1
 		batch_size = 96
-		epochs = 30
+		epochs = 80
 
 		#(X,Y),(X_test,Y_test) = mnist.load_data()
 		data = np.load('mnist.npz')
@@ -74,7 +74,9 @@ class Clust:
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 
 		model.add(Flatten())
-		model.add(Dense(128))
+		model.add(Dropout(0.5))
+		model.add(Dense(512))
+		model.add(BatchNormalization())
 		model.add(Activation('relu'))
 
 		model.add(Dropout(0.5))
@@ -110,10 +112,10 @@ class Clust:
 
 		# Compiling the model
 		#opt = RMSprop(lr=0.0001, decay=1e-6)
-		lrate = 0.01
-		decay = lrate/epochs
-		sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
-		model.compile(optimizer=sgd,
+		# lrate = 0.01
+		# decay = lrate/epochs
+		#sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+		model.compile(optimizer='adam',
 			loss='categorical_crossentropy',
 			metrics=['accuracy'])
 
@@ -128,8 +130,8 @@ class Clust:
 
 		print("\n----- Real-time data augmentation -----\n")
 		datagen = ImageDataGenerator(
-			rotation_range=8, width_shift_range=0.08, shear_range=0.3,
-                         height_shift_range=0.08, zoom_range=0.08)
+			width_shift_range=0.08, shear_range=0.3,
+                         height_shift_range=4, zoom_range=0.1)
 
 		datagen.fit(X)
 		cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
