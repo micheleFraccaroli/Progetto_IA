@@ -76,7 +76,6 @@ class Clust:
 		model.add(Flatten())
 		model.add(Dropout(0.5))
 		model.add(Dense(512))
-		model.add(BatchNormalization())
 		model.add(Activation('relu'))
 
 		model.add(Dropout(0.5))
