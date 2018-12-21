@@ -129,9 +129,7 @@ class Clust:
 		#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
 
 		print("\n----- Real-time data augmentation -----\n")
-		datagen = ImageDataGenerator(
-			width_shift_range=0.08, shear_range=0.3,
-                         height_shift_range=4, zoom_range=0.1)
+		datagen = ImageDataGenerator(height_shift_range=4, zoom_range=0.1)
 
 		datagen.fit(X)
 		cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
