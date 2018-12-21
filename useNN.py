@@ -11,14 +11,25 @@ from keras.callbacks import TensorBoard
 from keras import backend as K
 from Load_Module import Load_Module
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    MAGENTA = '\033[1;35m'
+    CYAN = '\033[1;36m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+
+
 class useNN:
 
 	def show_imgs(self,X,lab):
 	    pyplot.figure(1)
 	    k = 0
-	    for i in range(0,4):
-	        for j in range(0,4):
-	            pyplot.subplot2grid((4,4),(i,j))
+	    for i in range(0,5):
+	        for j in range(0,6):
+	            pyplot.subplot2grid((5,6),(i,j))
 	            pyplot.imshow(toimage(np.squeeze(X[k],2)))
 	            pyplot.annotate(lab[k],xy=(0,0), xytext=(.8,-2), fontsize=10, fontweight='bold', color='r')
 	            k = k+1
@@ -46,10 +57,11 @@ class useNN:
 
 		labels = ['0','1','2','3','4','5','6','7','8','9','N']
 		 
-		indices = np.argmax(model.predict(X_test[:16]),1)
-		predictions = model.predict(X_test[:16])
-		print("MODEL PREDICTIONS -------------------------------------\n " + str(predictions))
-		print("\n-----------------------------------------------------\n")
+		indices = np.argmax(model.predict(X_test[:30]),1)
+		predictions = model.predict(X_test[:30])
+		print(bcolors.MAGENTA + "\n\nMODEL PREDICTIONS -------------------------------------\n " + bcolors.ENDC)
+		print(str(predictions))
+		print(bcolors.MAGENTA + "\n-----------------------------------------------------\n" + bcolors.ENDC)
 
 		k = 0
 		for i in range(len(predictions)):
@@ -66,16 +78,21 @@ class useNN:
 						k = 0
 						break
 
-		print("MODEL PREDICTIONS POST WORK -------------------------------------\n " + str(predictions))
-		print("\n-----------------------------------------------------\n")
+		#print("MODEL PREDICTIONS POST WORK -------------------------------------\n " + str(predictions))
+		#print("\n-----------------------------------------------------\n")
 
 		indices2 = np.argmax(predictions,1)
 		# print("\nLabels: " + str(labels) + "\n")
 		# print("Indici: " + str(indices) + "\n")
 		#print("--- " + str(lab) + " ---\n")
 		lab = [labels[x] for x in indices2]
-		self.show_imgs(X_test[:16],lab)
+		self.show_imgs(X_test[:30],lab)
 
 if __name__ == "__main__":
-	 using = useNN()
-	 using.fire()
+
+	print(bcolors.MAGENTA + "       _______ _     _ __   _ _______ _     _       _____  _______ ______  " + bcolors.ENDC)
+	print(bcolors.OKBLUE +  "|      |_____| |     | | \  | |       |_____|      |_____] |_____| |     \ " + bcolors.ENDC)
+	print(bcolors.CYAN + 	"|_____ |     | |_____| |  \_| |_____  |     |      |       |     | |_____/ \n\n" + bcolors.ENDC)
+
+	using = useNN()
+	using.fire()

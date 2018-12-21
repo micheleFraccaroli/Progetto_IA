@@ -38,7 +38,7 @@ class Clust:
 	def supports(self):
 		num_classes = 10+1
 		batch_size = 96
-		epochs = 250
+		epochs = 480
 
 		#(X,Y),(X_test,Y_test) = mnist.load_data()
 		data = np.load('mnist.npz')
@@ -116,7 +116,12 @@ class Clust:
 		#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
 
 		print("\n----- Real-time data augmentation -----\n")
-		datagen = ImageDataGenerator(height_shift_range=0.5)
+		datagen = ImageDataGenerator(rotation_range=40,
+							        rescale=1./255,
+							        shear_range=0.2,
+							        zoom_range=0.2,
+							        horizontal_flip=True,
+							        fill_mode='nearest')
 
 		datagen.fit(X)
 		cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
