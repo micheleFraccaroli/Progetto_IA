@@ -3,7 +3,7 @@
 #SBATCH --error=gpu-test-%j.err
 #SBATCH --output=gpu-test-%j.out
 #SBATCH --ntasks=4
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 
 module load anaconda/3 cuda/9.0 cudnn/7.0
 
