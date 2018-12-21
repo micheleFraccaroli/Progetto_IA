@@ -38,7 +38,7 @@ class Clust:
 	def supports(self):
 		num_classes = 10+1
 		batch_size = 96
-		epochs = 70
+		epochs = 250
 
 		#(X,Y),(X_test,Y_test) = mnist.load_data()
 		data = np.load('mnist.npz')
