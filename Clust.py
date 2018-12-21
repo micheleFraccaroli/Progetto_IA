@@ -38,7 +38,7 @@ class Clust:
 	def supports(self):
 		num_classes = 10+1
 		batch_size = 96
-		epochs = 30
+		epochs = 70
 
 		#(X,Y),(X_test,Y_test) = mnist.load_data()
 		data = np.load('mnist.npz')
@@ -81,6 +81,11 @@ class Clust:
 		model.add(Activation('relu'))
 		model.add(Conv2D(64,(3,3)))
 		model.add(Activation('relu'))
+		model.add(Dropout(0.5))
+		model.add(Conv2D(64,(3,3)))
+		model.add(Activation('relu'))
+		model.add(Conv2D(64,(3,3)))
+		model.add(Activation('relu'))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 
 		model.add(Flatten())
@@ -91,32 +96,6 @@ class Clust:
 		model.add(Dropout(0.5))
 		model.add(Dense(num_classes))
 		model.add(Activation('softmax'))
-		# model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
-		# model.add(BatchNormalization(axis=-1))
-		# model.add(Activation('relu'))
-		# model.add(Conv2D(32, (3, 3)))
-		# model.add(BatchNormalization(axis=-1))
-		# model.add(Activation('relu'))
-		# model.add(MaxPooling2D(pool_size=(2,2)))
-
-		# model.add(Conv2D(64,(3, 3)))
-		# model.add(BatchNormalization(axis=-1))
-		# model.add(Activation('relu'))
-		# model.add(Conv2D(64, (3, 3)))
-		# model.add(BatchNormalization(axis=-1))
-		# model.add(Activation('relu'))
-		# model.add(MaxPooling2D(pool_size=(2,2)))
-
-		# model.add(Flatten())
-
-		# # Fully connected layer
-		# model.add(Dense(512))
-		# model.add(BatchNormalization())
-		# model.add(Activation('relu'))
-		# model.add(Dropout(0.2))
-		# model.add(Dense(num_classes))
-
-		# model.add(Activation('softmax'))
 		# -- end network --
 
 		# Compiling the model
@@ -138,8 +117,7 @@ class Clust:
 		#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
 
 		print("\n----- Real-time data augmentation -----\n")
-		datagen = ImageDataGenerator(
-			height_shift_range=2, zoom_range=0.08)
+		datagen = ImageDataGenerator(height_shift_range=0.5)
 
 		datagen.fit(X)
 		cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
@@ -149,7 +127,6 @@ class Clust:
 		print('Accuracy: %.3f' % (scores[1]*100))
 
 		# Saving model
-		# Save to disk
 		model_json = cnn_i.to_json()
 		with open('mnist_model.json', 'w') as json_file:
 		    json_file.write(model_json)
@@ -164,7 +141,7 @@ if __name__ == '__main__':
 	print(bcolors.OKBLUE + "/    \  \/|  | |  |  \/  ___/\   __\ " + bcolors.ENDC)
 	print(bcolors.OKBLUE + "\     \___|  |_|  |  /\___ \  |  |   " + bcolors.ENDC)
 	print(bcolors.CYAN + " \______  /____/____//____  > |__|   " + bcolors.ENDC)
-	print(bcolors.CYAN + "  \/                      \/         " + bcolors.ENDC)
+	print(bcolors.CYAN + "        \/                \/         " + bcolors.ENDC)
 
 	clust = Clust()
 	X,Y,X_test,Y_test,num_classes,batch_size,epochs = clust.supports()

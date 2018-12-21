@@ -33,24 +33,10 @@ class useNN:
 		# X_test = data['x_test']
 		# Y_test = data['y_test']
 
-		# print("X_TEST TYPE  ----> " + str(type(X_test)))
-		# print("X_TEST SHAPE ----> " + str(X_test.shape))
-		#print(X_test)
-
 		lm = Load_Module()
 		X_test = lm.loading()
 
-		#if K.image_data_format() == 'channels_first':
-		#X = X.reshape(X.shape[0], 28, 28,1)
 		X_test = X_test.reshape(X_test.shape[0],28, 28,1)
-
-		# # Convert class vectors to binary class matrices.
-		# Y = np_utils.to_categorical(Y, num_classes)
-		# Y_test = np_utils.to_categorical(Y_test, num_classes)
-		# X = X.astype('float32')
-		# X_test = X_test.astype('float32')
-		# X  /= 255
-		# X_test /= 255
 
 		json_file = open('mnist_model.json', 'r')
 		loaded_model_json = json_file.read()
@@ -61,12 +47,33 @@ class useNN:
 		labels = ['0','1','2','3','4','5','6','7','8','9','N']
 		 
 		indices = np.argmax(model.predict(X_test[:16]),1)
-		res = model.predict(X_test[:16])
-		#print("Predizione → " + str(res))
-		print("\nLabels: " + str(labels) + "\n")
-		print("Indici: " + str(indices) + "\n")
-		lab = [labels[x] for x in indices]
+		predictions = model.predict(X_test[:16])
+		print("MODEL PREDICTIONS -------------------------------------\n " + str(predictions))
+		print("\n-----------------------------------------------------\n")
+
+		k = 0
+		for i in range(len(predictions)):
+			for j in predictions[i]:
+				if(j > 0):
+					if(k == 0):
+						k = j
+					else:
+						for l in range(len(predictions[i])):
+							if(l < 10):
+								predictions[i][l] = 0.0000000e+00
+							else:
+								predictions[i][l] = 1.0000000e+00
+						k = 0
+						break
+
+		print("MODEL PREDICTIONS POST WORK -------------------------------------\n " + str(predictions))
+		print("\n-----------------------------------------------------\n")
+
+		indices2 = np.argmax(predictions,1)
+		# print("\nLabels: " + str(labels) + "\n")
+		# print("Indici: " + str(indices) + "\n")
 		#print("--- " + str(lab) + " ---\n")
+		lab = [labels[x] for x in indices2]
 		self.show_imgs(X_test[:16],lab)
 
 if __name__ == "__main__":
