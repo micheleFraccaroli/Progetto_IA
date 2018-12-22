@@ -1,21 +1,11 @@
 from time import time
 import tensorflow as tf
 import numpy as np
-import pickle
-from scipy.misc import toimage
 from tensorflow import keras
-#from tensorflow.python.keras.datasets import mnist
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras.models import Sequential, load_model, Model, model_from_json
-from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
-from tensorflow.python.keras.layers import Activation, Dropout, Flatten, Dense, GlobalAveragePooling2D, BatchNormalization
-from tensorflow.python.keras.utils import np_utils, to_categorical
-from tensorflow.python.keras.optimizers import RMSprop, SGD
-from tensorflow.python.keras.constraints import maxnorm
-from tensorflow.python.keras.preprocessing import image
-from tensorflow.python.keras.callbacks import TensorBoard
-from tensorflow.python.keras.applications.inception_v3 import InceptionV3
-from tensorflow.python.keras import backend as K
+from keras.models import Sequential
+from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Activation, Dropout, Flatten, Dense
+from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 
 class bcolors:
     HEADER = '\033[95m'
@@ -27,48 +17,22 @@ class bcolors:
     FAIL = '\033[91m'
     ENDC = '\033[0m'
 
-class Clust:
 
-	#K.tensorflow_backend._get_available_gpus()
+class Cust:
 	if K.backend()=='tensorflow':
 	    K.set_image_data_format("channels_last")
 
 	print("GPU: " + str(tf.test.is_gpu_available()))
 
-	def supports(self):
+	def launching(self):
 		num_classes = 10+1
 		batch_size = 96
-		epochs = 480
+		epochs = 300
 
-		#(X,Y),(X_test,Y_test) = mnist.load_data()
-		data = np.load('mnist.npz')
-		X = data['x_train']
-		Y = data['y_train']
-		X_test = data['x_test']
-		Y_test = data['y_test']
+		# NET -----
 
-		#if K.image_data_format() == 'channels_first':
-		# print("X shape[0] --> " + str(X.shape[0]))
-		# print("X shape --> " + str(X.shape))
-		X = X.reshape(X.shape[0],28,28,1)
-		X_test = X_test.reshape(X_test.shape[0],28,28,1)
-		input_shape = (28,28,1)
-
-		# Convert class vectors to binary class matrices.
-		Y = np_utils.to_categorical(Y, num_classes)
-		Y_test = np_utils.to_categorical(Y_test, num_classes)
-		X = X.astype('float32')
-		X_test = X_test.astype('float32')
-		X  /= 255
-		X_test /= 255
-
-		return X,Y,X_test,Y_test,num_classes,batch_size,epochs
-
-	# Architecture of neural network
-	# -- --
-	def model_cnn(self,X,epochs, num_classes):
 		model = Sequential()
-		model.add(Conv2D(32, (3, 3), input_shape=X.shape[1:]))
+		model.add(Conv2D(32, (3, 3), input_shape=(28,28,1)))
 		model.add(Activation('relu'))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 
@@ -95,48 +59,56 @@ class Clust:
 		model.add(Dropout(0.5))
 		model.add(Dense(num_classes))
 		model.add(Activation('softmax'))
-		# -- end network --
 
-		# Compiling the model
-		#opt = RMSprop(lr=0.0001, decay=1e-6)
-		#lrate = 0.01
-		#decay = lrate/epochs
-		#sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
-		model.compile(optimizer='adam',
-			loss='categorical_crossentropy',
-			metrics=['accuracy'])
+		# END -----
 
-		return model
+		model.compile(loss='categorical_crossentropy',
+	              optimizer='adam',
+	              metrics=['accuracy'])
 
+		# augmentation configuration for training
+		train_datagen = ImageDataGenerator(
+		        rescale=1./255,
+		        shear_range=0.2,
+		        zoom_range=0.2,
+		        horizontal_flip=True)
 
-	# Training
-	def training(self,X,Y,X_test,Y_test,num_classes,batch_size,epochs):
-		cnn_i = self.model_cnn(X,epochs,num_classes)
-		tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
-		#cnn = cnn_i.fit(X,Y,batch_size=batch_size,epochs=epochs,validation_data=(X_test,Y_test),shuffle=True,callbacks=[tensorboard])
+		# augmentation configuration for testing:
+		test_datagen = ImageDataGenerator(rescale=1./255)
 
-		print("\n----- Real-time data augmentation -----\n")
-		datagen = ImageDataGenerator(rotation_range=40,
-							        rescale=1./255,
-							        shear_range=0.2,
-							        zoom_range=0.2,
-							        horizontal_flip=True,
-							        fill_mode='nearest')
+		# this is a generator that will read pictures found in
+		# subfolers of 'data/train', and indefinitely generate
+		# batches of augmented image data
+		train_generator = train_datagen.flow_from_directory(
+		        'DigitDataset/Images/Train',
+		        target_size=(28, 28),
+		        batch_size=batch_size,
+		        class_mode='categorical')  # since we use binary_crossentropy loss, we need binary labels
 
-		datagen.fit(X)
-		cnn_i.fit_generator(datagen.flow(X,Y,batch_size=batch_size),epochs=epochs,steps_per_epoch=len(X)//batch_size, validation_data=(X_test,Y_test),workers=2)
+		# this is a similar generator, for validation data
+		validation_generator = test_datagen.flow_from_directory(
+		        'DigitDataset/Images/Test',
+		        target_size=(28, 28),
+		        batch_size=batch_size,
+		        class_mode='categorical')
 
-		scores = cnn_i.evaluate(X_test, Y_test)
-		print('Loss: %.3f' % scores[0])
-		print('Accuracy: %.3f' % (scores[1]*100))
+		#scores = model.evaluate(X_test, Y_test)
+		#print('Loss: %.3f' % scores[0])
+		#print('Accuracy: %.3f' % (scores[1]*100))
+
+		model.fit_generator(
+	        train_generator,
+	        steps_per_epoch=2000 // batch_size,
+	        epochs=epochs,
+	        validation_data=validation_generator,
+	        validation_steps=800 // batch_size)
 
 		# Saving model
-		model_json = cnn_i.to_json()
-		with open('mnist_model.json', 'w') as json_file:
+		model_json = model.to_json()
+		with open('clust_model.json', 'w') as json_file:
 		    json_file.write(model_json)
 
-		cnn_i.save_weights('mnist.h5')
-
+		model.save_weights('clust_weights.h5')
 
 if __name__ == '__main__':
 
@@ -147,6 +119,5 @@ if __name__ == '__main__':
 	print(bcolors.CYAN + " \______  /____/____//____  > |__|   " + bcolors.ENDC)
 	print(bcolors.CYAN + "        \/                \/         " + bcolors.ENDC)
 
-	clust = Clust()
-	X,Y,X_test,Y_test,num_classes,batch_size,epochs = clust.supports()
-	clust.training(X,Y,X_test,Y_test,num_classes,batch_size,epochs)
+	c = Clust()
+	c.launching()
