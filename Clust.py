@@ -2,10 +2,11 @@ from time import time
 import tensorflow as tf
 import numpy as np
 from tensorflow import keras
-from ensorflow.python.keras.models import Sequential
-from ensorflow.python.keras.layers import Conv2D, MaxPooling2D
-from ensorflow.python.keras.layers import Activation, Dropout, Flatten, Dense
-from ensorflow.python.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.python.keras.layers import Activation, Dropout, Flatten, Dense
+from tensorflow.python.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+from tensorflow.python.keras import backend as K
 
 class bcolors:
     HEADER = '\033[95m'
@@ -18,7 +19,7 @@ class bcolors:
     ENDC = '\033[0m'
 
 
-class Cust:
+class Clust:
 	if K.backend()=='tensorflow':
 	    K.set_image_data_format("channels_last")
 
