@@ -26,14 +26,14 @@ class Clust:
 	print("GPU: " + str(tf.test.is_gpu_available()))
 
 	def launching(self):
-		num_classes = 10+1
+		num_classes = 10
 		batch_size = 96
 		epochs = 300
 
 		# NET -----
 
 		model = Sequential()
-		model.add(Conv2D(32, (3, 3), input_shape=(28,28,1)))
+		model.add(Conv2D(32, (3, 3), input_shape=(28,28,3)))
 		model.add(Activation('relu'))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 
@@ -81,14 +81,14 @@ class Clust:
 		# subfolers of 'data/train', and indefinitely generate
 		# batches of augmented image data
 		train_generator = train_datagen.flow_from_directory(
-		        'DigitDataset/Images/Train',
+		        'DigitDataset/Images/Train/',
 		        target_size=(28, 28),
 		        batch_size=batch_size,
 		        class_mode='categorical')  # since we use binary_crossentropy loss, we need binary labels
 
 		# this is a similar generator, for validation data
 		validation_generator = test_datagen.flow_from_directory(
-		        'DigitDataset/Images/Test',
+		        'DigitDataset/Images/Test/',
 		        target_size=(28, 28),
 		        batch_size=batch_size,
 		        class_mode='categorical')
