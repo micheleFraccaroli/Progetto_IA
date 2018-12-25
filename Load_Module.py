@@ -22,13 +22,12 @@ class Load_Module:
 		# 	x = np.array(x_scaled)
 		# 	data.append(x)
 
-		i = 0
 		for lb in labeling_list:
+			i = ra.randint(1,9)
 			data_path = folder_path + "/" + str(i) + "/"
-			i = i + 1
 			for j in range(2):
 				img_list = os.listdir(data_path)
-				num_img = ra.randint(1,len(img_list))
+				num_img = ra.randint(1,len(img_list)-1)
 				img_path = data_path + img_list[num_img]
 				loaded = image.load_img(img_path)
 				scalesize = (28,28)

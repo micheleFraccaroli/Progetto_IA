@@ -1,5 +1,4 @@
 #useNN.py
 gpu-*
-*.pdf
-*.gv
 *.npz
+mnist.npz
