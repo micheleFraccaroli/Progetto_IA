@@ -7,4 +7,4 @@
 
 module load anaconda/3 cuda/9.0 cudnn/7.0
 
-python3 Clust.py
+python3 Decider.py

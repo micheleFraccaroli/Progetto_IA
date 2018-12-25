@@ -49,7 +49,7 @@ class Decider:
 		model.add(Activation('relu'))
 		model.add(Conv2D(64,(3,3)))
 		model.add(Activation('relu'))
-		model.add(Dropout(0.5))
+		#model.add(Dropout(0.5))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 
 		model.add(Flatten())
@@ -76,13 +76,13 @@ class Decider:
 		        rescale=1./255,
 		        shear_range=0.2,
 		        zoom_range=0.2,
-		        brightness_range = [0.03,0.06],
+		        #brightness_range = [0.03,0.06],
 		        height_shift_range = 0.1,
 		        vertical_flip = True)
 
 		# augmentation configuration for testing:
 		test_datagen = ImageDataGenerator(rescale=1./255,
-				brightness_range = [0.03,0.06],
+				#brightness_range = [0.03,0.06],
 		        height_shift_range = 0.1,
 		        vertical_flip = True)
 
