@@ -27,7 +27,7 @@ class Decider:
 
 	print("GPU: " + str(tf.test.is_gpu_available()))
 
-	def launching(self,epochs):
+	def launching(self):
 		num_classes = 10
 		batch_size = 96
 		epochs = 800
@@ -50,7 +50,7 @@ class Decider:
 		model.add(Activation('relu'))
 		model.add(Conv2D(64,(3,3)))
 		model.add(Activation('relu'))
-		#model.add(Dropout(0.5))
+		model.add(Dropout(0.5))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 
 		model.add(Flatten())
@@ -130,4 +130,4 @@ if __name__ == '__main__':
 	print(bcolors.CYAN + "        \/     \/     \/        \/    \/       \n\n" + bcolors.ENDC)
 
 	c = Decider()
-	c.launching(epochs)
+	c.launching()
