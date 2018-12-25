@@ -30,7 +30,7 @@ class Decider:
 	def launching(self,epochs):
 		num_classes = 10
 		batch_size = 96
-		epochs = int(epochs)
+		epochs = 800
 
 		# Convolutional Neural Network -----
 
@@ -130,5 +130,4 @@ if __name__ == '__main__':
 	print(bcolors.CYAN + "        \/     \/     \/        \/    \/       \n\n" + bcolors.ENDC)
 
 	c = Decider()
-	epochs = input("\nN° epoche: ")
 	c.launching(epochs)
