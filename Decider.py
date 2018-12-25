@@ -1,3 +1,4 @@
+import os
 from time import time
 import tensorflow as tf
 import numpy as np
@@ -19,7 +20,7 @@ class bcolors:
     ENDC = '\033[0m'
 
 
-class Clust:
+class Decider:
 	if K.backend()=='tensorflow':
 	    K.set_image_data_format("channels_last")
 
@@ -28,7 +29,7 @@ class Clust:
 	def launching(self):
 		num_classes = 10
 		batch_size = 96
-		epochs = 300
+		epochs = 400
 
 		# NET -----
 
@@ -46,6 +47,9 @@ class Clust:
 		model.add(Activation('relu'))
 		model.add(Conv2D(64,(3,3)))
 		model.add(Activation('relu'))
+		model.add(Conv2D(64,(3,3)))
+		model.add(Activation('relu'))
+		model.add(Dropout(0.5))
 		model.add(MaxPooling2D(pool_size=(2, 2)))
 
 		model.add(Flatten())
@@ -72,10 +76,15 @@ class Clust:
 		        rescale=1./255,
 		        shear_range=0.2,
 		        zoom_range=0.2,
-		        horizontal_flip=True)
+		        brightness_range = [0.03,0.06],
+		        height_shift_range = 0.1,
+		        vertical_flip = True)
 
 		# augmentation configuration for testing:
-		test_datagen = ImageDataGenerator(rescale=1./255)
+		test_datagen = ImageDataGenerator(rescale=1./255,
+				brightness_range = [0.03,0.06],
+		        height_shift_range = 0.1,
+		        vertical_flip = True)
 
 		# this is a generator that will read pictures found in
 		# subfolers of 'data/train', and indefinitely generate
@@ -106,19 +115,30 @@ class Clust:
 
 		# Saving model
 		model_json = model.to_json()
-		with open('clust_model.json', 'w') as json_file:
+		with open('Decider_model.json', 'w') as json_file:
 		    json_file.write(model_json)
 
-		model.save_weights('clust_weights.h5')
+		model.save_weights('decider_weights.h5')
 
 if __name__ == '__main__':
 
-	print(bcolors.MAGENTA + "_________ .__                  __    " + bcolors.ENDC)
-	print(bcolors.MAGENTA + "\_   ___ \|  |  __ __  _______/  |_  " + bcolors.ENDC)
-	print(bcolors.OKBLUE + "/    \  \/|  | |  |  \/  ___/\   __\ " + bcolors.ENDC)
-	print(bcolors.OKBLUE + "\     \___|  |_|  |  /\___ \  |  |   " + bcolors.ENDC)
-	print(bcolors.CYAN + " \______  /____/____//____  > |__|   " + bcolors.ENDC)
-	print(bcolors.CYAN + "        \/                \/         " + bcolors.ENDC)
+	# print(bcolors.MAGENTA + "_________ .__                  __    " + bcolors.ENDC)
+	# print(bcolors.MAGENTA + "\_   ___ \|  |  __ __  _______/  |_  " + bcolors.ENDC)
+	# print(bcolors.OKBLUE + "/    \  \/|  | |  |  \/  ___/\   __\ " + bcolors.ENDC)
+	# print(bcolors.OKBLUE + "\     \___|  |_|  |  /\___ \  |  |   " + bcolors.ENDC)
+	# print(bcolors.CYAN + " \______  /____/____//____  > |__|   " + bcolors.ENDC)
+	# print(bcolors.CYAN + "        \/                \/         " + bcolors.ENDC)
 
-	c = Clust()
+
+	os.system('clear')
+	print(bcolors.MAGENTA + "\n\n________                .__    .___            " + bcolors.ENDC)
+	print(bcolors.MAGENTA + "\______ \   ____   ____ |__| __| _/___________ " + bcolors.ENDC)
+	print(bcolors.OKBLUE + " |    |  \_/ __ \_/ ___\|  |/ __ |/ __ \_  __ \ " + bcolors.ENDC)
+	print(bcolors.OKBLUE + " |    `   \  ___/\  \___|  / /_/ \  ___/|  | \/" + bcolors.ENDC)
+	print(bcolors.CYAN + "/_______  /\___  >\___  >__\____ |\___  >__|   " + bcolors.ENDC)
+	print(bcolors.CYAN + "        \/     \/     \/        \/    \/       \n\n" + bcolors.ENDC)
+
+
+
+	c = Decider()
 	c.launching()

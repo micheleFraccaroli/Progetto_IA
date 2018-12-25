@@ -1,4 +1,5 @@
 import os
+import random as ra
 import numpy as np
 import PIL
 from PIL import Image
@@ -8,25 +9,34 @@ class Load_Module:
 
 	def loading(self):
 		PATH = os.getcwd()
-		data_path = PATH + "/DigitDataset/Images/"
-
-		img_list = os.listdir(data_path)
+		folder_path = PATH + "/DigitDataset/Images/Test/"
+		labeling_list = os.listdir(folder_path)
 
 		data = []
 
-		for im in img_list:
-			img_path = data_path + im
-			loaded = image.load_img(img_path)
-			scalesize = (28,28)
-			x_scaled = loaded.resize(scalesize, PIL.Image.ANTIALIAS)
-			#print(x_scaled.convert('L').mode)
-			x = np.array(x_scaled.convert('L'))
-			#print(x.shape)
-			data.append(x)
+		# for im in img_list:
+		# 	img_path = data_path + im
+		# 	loaded = image.load_img(img_path)
+		# 	scalesize = (28,28)
+		# 	x_scaled = loaded.resize(scalesize, PIL.Image.ANTIALIAS)
+		# 	x = np.array(x_scaled)
+		# 	data.append(x)
 
-		#print("DATA TYPE  → " + str(type(data)))
+		i = 0
+		for lb in labeling_list:
+			data_path = folder_path + "/" + str(i) + "/"
+			i = i + 1
+			for j in range(2):
+				img_list = os.listdir(data_path)
+				num_img = ra.randint(1,len(img_list))
+				img_path = data_path + img_list[num_img]
+				loaded = image.load_img(img_path)
+				scalesize = (28,28)
+				x_scaled = loaded.resize(scalesize, PIL.Image.ANTIALIAS)
+				x = np.array(x_scaled)
+				data.append(x)
+
 		data = np.array(data)
-		#print("DATA SHAPE → " + str(data.shape))
 		
 		return data
 

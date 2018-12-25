@@ -27,10 +27,10 @@ class useNN:
 	def show_imgs(self,X,lab):
 	    pyplot.figure(1)
 	    k = 0
-	    for i in range(0,5):
-	        for j in range(0,6):
-	            pyplot.subplot2grid((5,6),(i,j))
-	            pyplot.imshow(toimage(np.squeeze(X[k],2)))
+	    for i in range(0,4):
+	        for j in range(0,5):
+	            pyplot.subplot2grid((4,5),(i,j))
+	            pyplot.imshow(toimage(X[k]))
 	            pyplot.annotate(lab[k],xy=(0,0), xytext=(.8,-2), fontsize=10, fontweight='bold', color='r')
 	            k = k+1
 	    # show the plot
@@ -47,46 +47,46 @@ class useNN:
 		lm = Load_Module()
 		X_test = lm.loading()
 
-		X_test = X_test.reshape(X_test.shape[0],28, 28,1)
+		X_test = X_test.reshape(X_test.shape[0],28, 28,3)
 
-		json_file = open('mnist_model.json', 'r')
+		json_file = open('clust_model.json', 'r')
 		loaded_model_json = json_file.read()
 		json_file.close()
 		model = model_from_json(loaded_model_json)
-		model.load_weights('mnist.h5')
+		model.load_weights('clust_weights.h5')
 
 		labels = ['0','1','2','3','4','5','6','7','8','9','N']
 		 
-		indices = np.argmax(model.predict(X_test[:30]),1)
-		predictions = model.predict(X_test[:30])
+		indices = np.argmax(model.predict(X_test[:20]),1)
+		predictions = model.predict(X_test[:20])
 		print(bcolors.MAGENTA + "\n\nMODEL PREDICTIONS -------------------------------------\n " + bcolors.ENDC)
 		print(str(predictions))
 		print(bcolors.MAGENTA + "\n-----------------------------------------------------\n" + bcolors.ENDC)
 
-		k = 0
-		for i in range(len(predictions)):
-			for j in predictions[i]:
-				if(j > 0):
-					if(k == 0):
-						k = j
-					else:
-						for l in range(len(predictions[i])):
-							if(l < 10):
-								predictions[i][l] = 0.0000000e+00
-							else:
-								predictions[i][l] = 1.0000000e+00
-						k = 0
-						break
+		# k = 0
+		# for i in range(len(predictions)):
+		# 	for j in predictions[i]:
+		# 		if(j > 0):
+		# 			if(k == 0):
+		# 				k = j
+		# 			else:
+		# 				for l in range(len(predictions[i])):
+		# 					if(l < 10):
+		# 						predictions[i][l] = 0.0000000e+00
+		# 					else:
+		# 						predictions[i][l] = 1.0000000e+00
+		# 				k = 0
+		# 				break
 
 		#print("MODEL PREDICTIONS POST WORK -------------------------------------\n " + str(predictions))
 		#print("\n-----------------------------------------------------\n")
 
 		indices2 = np.argmax(predictions,1)
 		# print("\nLabels: " + str(labels) + "\n")
-		# print("Indici: " + str(indices) + "\n")
+		#print("Indici2: " + str(indices2) + "\n")
 		#print("--- " + str(lab) + " ---\n")
-		lab = [labels[x] for x in indices2]
-		self.show_imgs(X_test[:30],lab)
+		lab = [labels[x] for x in indices]
+		self.show_imgs(X_test[:20],lab)
 
 if __name__ == "__main__":
 

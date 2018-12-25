@@ -142,7 +142,7 @@ if __name__ == '__main__':
 
 	print(bcolors.MAGENTA + "_________ .__                  __    " + bcolors.ENDC)
 	print(bcolors.MAGENTA + "\_   ___ \|  |  __ __  _______/  |_  " + bcolors.ENDC)
-	print(bcolors.OKBLUE + "/    \  \/|  | |  |  \/  ___/\   __\ " + bcolors.ENDC)
+	print(bcolors.OKBLUE + "/    \  \/|  | |  |  \/  ___/\   __\ " + bcolors.ENDC)       
 	print(bcolors.OKBLUE + "\     \___|  |_|  |  /\___ \  |  |   " + bcolors.ENDC)
 	print(bcolors.CYAN + " \______  /____/____//____  > |__|   " + bcolors.ENDC)
 	print(bcolors.CYAN + "        \/                \/         " + bcolors.ENDC)
