@@ -101,6 +101,9 @@ class Decider:
 		        batch_size=batch_size,
 		        class_mode='categorical')
 
+		f = open("Score_result.txt","a")
+		f.write("LOSS | ACC \n")
+
 		for i in range(-10,1):
 			lr = math.exp(i)
 			adam = Adam(lr=lr)
@@ -119,15 +122,14 @@ class Decider:
 
 			#plot_model(model, to_file='model.png')
 			score = model.evaluate_generator(validation_generator)
-
-			f = open("Score_result.txt","a")
-			f.write("Loss: " + str(score[0] + " Acc: " + str(score[1]) + "\n"))
-
+			output_file = str(score[0]) + " " + str(score[1]) + "\n"
+			f.write(output_file)
 			print("\nLoss: ", score[0], "\nAcc: ", score[1])
 		
 		# SAVING ----------------------------------------------------------------------
 
-		# Saving model
+		f.close()
+
 		model_json = model.to_json()
 		with open('Decider_model.json', 'w') as json_file:
 		    json_file.write(model_json)
