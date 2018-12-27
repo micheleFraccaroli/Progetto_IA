@@ -1,4 +1,5 @@
 #useNN.py
 gpu-*
+*.png
 *.npz
 mnist.npz

@@ -7,6 +7,7 @@ from scipy.misc import toimage
 from tensorflow import keras
 from keras.models import model_from_json
 from keras.preprocessing import image
+from keras.utils import plot_model
 from keras.callbacks import TensorBoard
 from keras import backend as K
 from Load_Module import Load_Module
@@ -56,6 +57,7 @@ class useNN:
 		model.load_weights('clust_weights.h5')
 
 		labels = ['0','1','2','3','4','5','6','7','8','9','N']
+		plot_model(model, to_file='model.png')
 		 
 		indices = np.argmax(model.predict(X_test[:20]),1)
 		predictions = model.predict(X_test[:20])
