@@ -69,10 +69,7 @@ class Decider:
 
 		# END CNN -----
 
-		adam = Adam(lr=0.001)
-		model.compile(loss='categorical_crossentropy',
-	              optimizer=adam,
-	              metrics=['accuracy'])
+		# COMPILING, DATA GENERATION AND TRAINING ------------------------------------------ 
 
 		# augmentation configuration for training
 		train_datagen = ImageDataGenerator(
@@ -103,27 +100,40 @@ class Decider:
 		        batch_size=batch_size,
 		        class_mode='categorical')
 
-		#scores = model.evaluate(X_test, Y_test)
-		#print('Loss: %.3f' % scores[0])
-		#print('Accuracy: %.3f' % (scores[1]*100))
+		for i in range(-10,1):
+			lr = exp(i)
+			adam = Adam(lr=lr)
+			model.compile(loss='categorical_crossentropy',
+		              optimizer=adam,
+		              metrics=['accuracy'])
 
-		model.fit_generator(
-	        train_generator,
-	        steps_per_epoch=2000 // batch_size,
-	        epochs=epochs,
-	        validation_data=validation_generator,
-	        validation_steps=800 // batch_size)
+			model.fit_generator(
+		        train_generator,
+		        steps_per_epoch=2000 // batch_size,
+		        epochs=epochs,
+		        validation_data=validation_generator,
+		        validation_steps=800 // batch_size)
 
-		#plot_model(model, to_file='model.png')
-		score = model.evaluate_generator(validation_generator)
-		#print(str(model.metrics_names))
-		print("Loss: ", score[0], "\nAcc: ", score[1])
+			# EVALUATION -------------------------------------------------------------
+
+			#plot_model(model, to_file='model.png')
+			score = model.evaluate_generator(validation_generator)
+
+			f = open("Score_result.txt","a")
+			f.write("Loss: " + str(score[0] + " Acc: " + str(score[1]) + "\n"))
+
+			print("\nLoss: ", score[0], "\nAcc: ", score[1])
+		
+		# SAVING ----------------------------------------------------------------------
+
 		# Saving model
 		model_json = model.to_json()
 		with open('Decider_model.json', 'w') as json_file:
 		    json_file.write(model_json)
 
 		model.save_weights('decider_weights.h5')
+
+		# -----------------------------------------------------------------------------
 
 if __name__ == '__main__':
 
