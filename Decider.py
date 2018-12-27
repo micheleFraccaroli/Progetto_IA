@@ -1,7 +1,8 @@
 import os
-from time import time
+import math
 import tensorflow as tf
 import numpy as np
+from time import time
 from tensorflow import keras
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
@@ -101,7 +102,7 @@ class Decider:
 		        class_mode='categorical')
 
 		for i in range(-10,1):
-			lr = exp(i)
+			lr = math.exp(i)
 			adam = Adam(lr=lr)
 			model.compile(loss='categorical_crossentropy',
 		              optimizer=adam,
