@@ -31,7 +31,7 @@ class Decider:
 	def launching(self):
 		num_classes = 10
 		batch_size = 96
-		epochs = 5
+		epochs = 2
 
 		# Convolutional Neural Network -----
 
@@ -114,10 +114,10 @@ class Decider:
 	        validation_data=validation_generator,
 	        validation_steps=800 // batch_size)
 
-		plot_model(model, to_file='model.png')
-
-		print("Accuracy ---> " + model)
-
+		#plot_model(model, to_file='model.png')
+		score = model.evaluate_generator(validation_generator)
+		#print(str(model.metrics_names))
+		print("Loss: ", score[0], "\nAcc: ", score[1])
 		# Saving model
 		model_json = model.to_json()
 		with open('Decider_model.json', 'w') as json_file:
