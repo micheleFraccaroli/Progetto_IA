@@ -8,7 +8,6 @@ from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.python.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.python.keras.optimizers import Adam
-from tensorflow.python.keras.utils import plot_model
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from tensorflow.python.keras import backend as K
 
@@ -32,7 +31,7 @@ class Decider:
 	def launching(self):
 		num_classes = 10
 		batch_size = 96
-		epochs = 2
+		epochs = 350
 
 		# Convolutional Neural Network -----
 
@@ -102,9 +101,9 @@ class Decider:
 		        class_mode='categorical')
 
 		f = open("Score_result.txt","a")
-		f.write("LOSS | ACC \n")
+		f.write("LOSS | ACC | LEARNING_RATE\n")
 
-		for i in range(-10,1):
+		for i in range(-12,-3):
 			lr = math.exp(i)
 			adam = Adam(lr=lr)
 			model.compile(loss='categorical_crossentropy',
@@ -120,9 +119,8 @@ class Decider:
 
 			# EVALUATION -------------------------------------------------------------
 
-			#plot_model(model, to_file='model.png')
 			score = model.evaluate_generator(validation_generator)
-			output_file = str(score[0]) + " " + str(score[1]) + "\n"
+			output_file = str(score[0]) + " " + str(score[1]) + " " + str(lr) + "\n"
 			f.write(output_file)
 			print("\nLoss: ", score[0], "\nAcc: ", score[1])
 		
