@@ -7,6 +7,7 @@ from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.python.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.python.keras.optimizers import Adam
+from tensorflow.python.keras.utils import plot_model
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from tensorflow.python.keras import backend as K
 
@@ -30,7 +31,7 @@ class Decider:
 	def launching(self,epochs):
 		num_classes = 10
 		batch_size = 96
-		epochs = 800
+		epochs = 5
 
 		# Convolutional Neural Network -----
 
@@ -67,7 +68,8 @@ class Decider:
 		model.add(Activation('softmax'))
 
 		# END CNN -----
-		adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+
+		adam = Adam(lr=0.001)
 		model.compile(loss='categorical_crossentropy',
 	              optimizer=adam,
 	              metrics=['accuracy'])
@@ -111,6 +113,10 @@ class Decider:
 	        epochs=epochs,
 	        validation_data=validation_generator,
 	        validation_steps=800 // batch_size)
+
+		plot_model(model, to_file='model.png')
+
+		print("Accuracy ---> " + model)
 
 		# Saving model
 		model_json = model.to_json()
