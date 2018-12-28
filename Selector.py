@@ -1,5 +1,3 @@
-import os
-
 class Selector:
 	def __init__(self,f):
 		self.f = f
