@@ -10,6 +10,7 @@ from tensorflow.python.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.python.keras.optimizers import Adam
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from tensorflow.python.keras import backend as K
+from Selector import Selector
 
 class bcolors:
     HEADER = '\033[95m'
@@ -100,8 +101,11 @@ class Decider:
 		        batch_size=batch_size,
 		        class_mode='categorical')
 
-		f = open("Score_result.txt","a")
+		f_name = "Score_result.txt"
+		f = open(f_name,"a")
 		f.write("LOSS | ACC | LEARNING_RATE\n")
+
+		# change dinamically the learning rate 
 
 		for i in range(-12,-3):
 			lr = math.exp(i)
@@ -120,20 +124,27 @@ class Decider:
 			# EVALUATION -------------------------------------------------------------
 
 			score = model.evaluate_generator(validation_generator)
-			output_file = str(score[0]) + " " + str(score[1]) + " " + str(lr) + "\n"
+			output_file = str(i) + " " + str(score[0]) + " " + str(score[1]) + " " + str(lr) + "\n"
 			f.write(output_file)
 			print("\nLoss: ", score[0], "\nAcc: ", score[1])
 		
-		# SAVING ----------------------------------------------------------------------
+			# SAVING ---------------------------------------------------------------------
+
+			model_json = model.to_json()
+			model_name = "/Models/" + str(i) + "-Decider_model.json"
+			weights_name = "/Weights/" + str(i)+ "-Decider_weights.h5"
+			with open(model_name, 'w') as json_file:
+			    json_file.write(model_json)
+
+			model.save_weights(weights_name)
+
+		# CHOICE BEST ACCURANCY ------------------------------------------------------
 
 		f.close()
-
-		model_json = model.to_json()
-		with open('Decider_model.json', 'w') as json_file:
-		    json_file.write(model_json)
-
-		model.save_weights('decider_weights.h5')
-
+		sel = Selector(f_name)
+		result,nAcc_id,nLoss_id = sel.select()
+		print("\n\nBest accurancy: " + str(res[0]) + "\nLoss: " + str(nLoss_id) + 
+												"\nLearning_rate: " + str(res[1]))
 		# -----------------------------------------------------------------------------
 
 if __name__ == '__main__':

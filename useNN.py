@@ -50,11 +50,11 @@ class useNN:
 
 		X_test = X_test.reshape(X_test.shape[0],28, 28,3)
 
-		json_file = open('clust_model.json', 'r')
+		json_file = open('/Models/Decider_model.json', 'r')
 		loaded_model_json = json_file.read()
 		json_file.close()
 		model = model_from_json(loaded_model_json)
-		model.load_weights('clust_weights.h5')
+		model.load_weights('/Weights/Decider_weights.h5')
 
 		labels = ['0','1','2','3','4','5','6','7','8','9','N']
 		plot_model(model, to_file='model.png')
