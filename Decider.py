@@ -107,7 +107,7 @@ class Decider:
 
 		# change dinamically the learning rate 
 
-		for i in range(-8,-3):
+		for i in range(-7,-5):
 			lr = math.exp(i)
 			adam = Adam(lr=lr)
 			model.compile(loss='categorical_crossentropy',
