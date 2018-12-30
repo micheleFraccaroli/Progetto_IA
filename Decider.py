@@ -103,7 +103,7 @@ class Decider:
 
 		f_name = "Score_result.txt"
 		f = open(f_name,"a")
-		f.write("LOSS | ACC | LEARNING_RATE\n")
+		f.write("--- N | LOSS | ACC | LEARNING_RATE ---\n")
 
 		# change dinamically the learning rate 
 
