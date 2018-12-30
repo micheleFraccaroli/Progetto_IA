@@ -24,4 +24,5 @@ if __name__ == '__main__':
 	f_name = "Score_result.txt"
 	s = Selector(f_name)
 	res,nAcc_id,nLoss_id = s.select()
-	print("Best accurancy: " + str(res[0]) + "\nLearning_rate: " + str(res[1]))
+	print("Best accurancy: " + str(res[0]) + 
+		"\nLearning_rate: " + str(res[1]))

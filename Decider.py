@@ -131,8 +131,8 @@ class Decider:
 			# SAVING ---------------------------------------------------------------------
 
 			model_json = model.to_json()
-			model_name = "/Models/" + str(i) + "-Decider_model.json"
-			weights_name = "/Weights/" + str(i)+ "-Decider_weights.h5"
+			model_name = "Models/" + str(i)[1:] + "-Decider_model.json"
+			weights_name = "Weights/" + str(i)[1:] + "-Decider_weights.h5"
 			with open(model_name, 'w') as json_file:
 			    json_file.write(model_json)
 
