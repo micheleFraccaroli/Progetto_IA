@@ -107,7 +107,7 @@ class Decider:
 
 		# change dinamically the learning rate 
 
-		for i in range(-12,-3):
+		for i in range(-8,-3):
 			lr = math.exp(i)
 			adam = Adam(lr=lr)
 			model.compile(loss='categorical_crossentropy',
@@ -126,7 +126,7 @@ class Decider:
 			score = model.evaluate_generator(validation_generator)
 			output_file = str(i) + " " + str(score[0]) + " " + str(score[1]) + " " + str(lr) + "\n"
 			f.write(output_file)
-			print("\nLoss: ", score[0], "\nAcc: ", score[1])
+			print("\nLoss: ", str(score[0]) , "\nAcc: ", str(score[1]) + "\n")
 		
 			# SAVING ---------------------------------------------------------------------
 
