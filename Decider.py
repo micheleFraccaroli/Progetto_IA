@@ -32,7 +32,7 @@ class Decider:
 	def launching(self):
 		num_classes = 10
 		batch_size = 96
-		epochs = 300
+		epochs = 200
 
 		# Convolutional Neural Network -----
 
@@ -108,6 +108,7 @@ class Decider:
 		# change dinamically the learning rate 
 
 		for i in range(-7,-5):
+			print("\n" + str(i) + "\n")
 			lr = math.exp(i)
 			adam = Adam(lr=lr)
 			model.compile(loss='categorical_crossentropy',
@@ -143,8 +144,8 @@ class Decider:
 		f.close()
 		sel = Selector(f_name)
 		result,nAcc_id,nLoss_id = sel.select()
-		print("\n\nBest accurancy: " + str(res[0]) + "\nLoss: " + str(nLoss_id) + 
-												"\nLearning_rate: " + str(res[1]))
+		print("\n\nBest accurancy: " + str(result[0]) + "\nLoss: " + str(nLoss_id) + 
+												"\nLearning_rate: " + str(result[1]))
 		# -----------------------------------------------------------------------------
 
 if __name__ == '__main__':
