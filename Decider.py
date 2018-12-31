@@ -32,7 +32,7 @@ class Decider:
 	def launching(self):
 		num_classes = 10
 		batch_size = 96
-		epochs = 200
+		epochs = 2
 
 		# Convolutional Neural Network -----
 
@@ -102,7 +102,7 @@ class Decider:
 		        class_mode='categorical')
 
 		f_name = "Score_result.txt"
-		f = open(f_name,"a")
+		f = open(f_name,"w")
 		f.write("--- N | LOSS | ACC | LEARNING_RATE ---\n")
 
 		# change dinamically the learning rate 
