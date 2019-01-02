@@ -9,6 +9,7 @@ from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.python.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.python.keras.optimizers import Adam, Adamax, Nadam, Adadelta, Adagrad, RMSprop, SGD, 
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+from tensorflow.python.keras.callbacks import TensorBoard
 from tensorflow.python.keras import backend as K
 from Selector import Selector
 
@@ -109,6 +110,7 @@ class Decider:
 		opt = input("")
 
 		for i in range(-7,-5):
+			tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 			print("\n" + str(i) + "\n")
 			lr = math.exp(i)
 			adam = Adamax(lr=lr)
@@ -121,7 +123,8 @@ class Decider:
 		        steps_per_epoch=2000 // batch_size,
 		        epochs=epochs,
 		        validation_data=validation_generator,
-		        validation_steps=800 // batch_size)
+		        validation_steps=800 // batch_size,
+		        callbacks=[tensorboard])
 
 			# EVALUATION -------------------------------------------------------------
 
