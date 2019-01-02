@@ -1,8 +1,10 @@
-from time import time
+import os
+import sys
+import time
 import tensorflow as tf
 import numpy as np
-from matplotlib import pyplot
 import matplotlib.pyplot as plt
+from matplotlib import pyplot
 from scipy.misc import toimage
 from tensorflow import keras
 from keras.models import model_from_json
@@ -11,6 +13,22 @@ from keras.utils import plot_model
 from keras.callbacks import TensorBoard
 from keras import backend as K
 from Load_Module import Load_Module
+
+# hide AVX2 warning
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+def animate():
+	done = 0
+	while done != 4:
+		sys.stdout.write('\rPrediction running |')
+		time.sleep(0.1)
+		sys.stdout.write('\rPrediction running /')
+		time.sleep(0.1)
+		sys.stdout.write('\rPrediction running -')
+		time.sleep(0.1)
+		sys.stdout.write('\rPrediction running \\')
+		time.sleep(0.1)
+		done = done + 1
 
 class bcolors:
     HEADER = '\033[95m'
@@ -50,20 +68,20 @@ class useNN:
 
 		X_test = X_test.reshape(X_test.shape[0],28, 28,3)
 
-		json_file = open('/Models/Decider_model.json', 'r')
+		json_file = open('Models/6-Decider_model.json', 'r')
 		loaded_model_json = json_file.read()
 		json_file.close()
 		model = model_from_json(loaded_model_json)
-		model.load_weights('/Weights/Decider_weights.h5')
+		model.load_weights('Weights/6-Decider_weights.h5')
 
 		labels = ['0','1','2','3','4','5','6','7','8','9','N']
 		plot_model(model, to_file='model.png')
 		 
 		indices = np.argmax(model.predict(X_test[:20]),1)
 		predictions = model.predict(X_test[:20])
-		print(bcolors.MAGENTA + "\n\nMODEL PREDICTIONS -------------------------------------\n " + bcolors.ENDC)
-		print(str(predictions))
-		print(bcolors.MAGENTA + "\n-----------------------------------------------------\n" + bcolors.ENDC)
+		#print(bcolors.MAGENTA + "\n\nMODEL PREDICTIONS -------------------------------------\n " + bcolors.ENDC)
+		#print(str(predictions))
+		#print(bcolors.MAGENTA + "\n-----------------------------------------------------\n" + bcolors.ENDC)
 
 		# k = 0
 		# for i in range(len(predictions)):
@@ -95,6 +113,8 @@ if __name__ == "__main__":
 	print(bcolors.MAGENTA + "       _______ _     _ __   _ _______ _     _       _____  _______ ______  " + bcolors.ENDC)
 	print(bcolors.OKBLUE +  "|      |_____| |     | | \  | |       |_____|      |_____] |_____| |     \ " + bcolors.ENDC)
 	print(bcolors.CYAN + 	"|_____ |     | |_____| |  \_| |_____  |     |      |       |     | |_____/ \n\n" + bcolors.ENDC)
+	
+	animate()
 
 	using = useNN()
 	using.fire()

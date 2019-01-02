@@ -7,7 +7,7 @@ from tensorflow import keras
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.python.keras.layers import Activation, Dropout, Flatten, Dense
-from tensorflow.python.keras.optimizers import Adam
+from tensorflow.python.keras.optimizers import Adam, Adamax, Nadam, Adadelta, Adagrad, RMSprop, SGD, 
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from tensorflow.python.keras import backend as K
 from Selector import Selector
@@ -105,12 +105,13 @@ class Decider:
 		f = open(f_name,"w")
 		f.write("--- N | LOSS | ACC | LEARNING_RATE ---\n")
 
-		# change dinamically the learning rate 
+		# change dinamically the learning rate
+		opt = input("")
 
 		for i in range(-7,-5):
 			print("\n" + str(i) + "\n")
 			lr = math.exp(i)
-			adam = Adam(lr=lr)
+			adam = Adamax(lr=lr)
 			model.compile(loss='categorical_crossentropy',
 		              optimizer=adam,
 		              metrics=['accuracy'])
