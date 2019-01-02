@@ -108,10 +108,10 @@ class Decider:
 
 		# change dinamically the learning rate
 		for i in range(-7,-5):
-			tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
+			tensorboard = TensorBoard(log_dir="logs/{}".format(time()) + "-->" + str(i))
 			print("\n" + str(i) + "\n")
 			lr = math.exp(i)
-			adam = Adamax(lr=lr)
+			adam = Adagrad(lr=lr)
 			model.compile(loss='categorical_crossentropy',
 		              optimizer=adam,
 		              metrics=['accuracy'])

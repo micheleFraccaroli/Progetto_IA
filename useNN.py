@@ -68,11 +68,11 @@ class useNN:
 
 		X_test = X_test.reshape(X_test.shape[0],28, 28,3)
 
-		json_file = open('Models/6-Decider_model.json', 'r')
+		json_file = open('Models/7-Decider_model.json', 'r')
 		loaded_model_json = json_file.read()
 		json_file.close()
 		model = model_from_json(loaded_model_json)
-		model.load_weights('Weights/6-Decider_weights.h5')
+		model.load_weights('Weights/7-Decider_weights.h5')
 
 		labels = ['0','1','2','3','4','5','6','7','8','9','N']
 		plot_model(model, to_file='model.png')
@@ -110,11 +110,13 @@ class useNN:
 
 if __name__ == "__main__":
 
+	os.system('clear')
 	print(bcolors.MAGENTA + "       _______ _     _ __   _ _______ _     _       _____  _______ ______  " + bcolors.ENDC)
 	print(bcolors.OKBLUE +  "|      |_____| |     | | \  | |       |_____|      |_____] |_____| |     \ " + bcolors.ENDC)
 	print(bcolors.CYAN + 	"|_____ |     | |_____| |  \_| |_____  |     |      |       |     | |_____/ \n\n" + bcolors.ENDC)
 	
 	animate()
+	print("\n")
 
 	using = useNN()
 	using.fire()
