@@ -33,7 +33,7 @@ class Decider:
 	def launching(self):
 		num_classes = 10
 		batch_size = 96
-		epochs = 200
+		epochs = 450
 
 		# Convolutional Neural Network -----
 
@@ -107,7 +107,7 @@ class Decider:
 		f.write("--- N | LOSS | ACC | LEARNING_RATE ---\n")
 
 		# change dinamically the learning rate
-		for i in range(-7,-5):
+		for i in range(-6,-5):
 			tensorboard = TensorBoard(log_dir="logs/{}".format(time()) + "-->" + str(i))
 			print("\n" + str(i) + "\n")
 			lr = math.exp(i)
@@ -162,3 +162,5 @@ if __name__ == '__main__':
 
 	c = Decider()
 	c.launching()
+
+	
