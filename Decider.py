@@ -111,7 +111,7 @@ class Decider:
 			tensorboard = TensorBoard(log_dir="logs/{}".format(time()) + "-->" + str(i))
 			print("\n" + str(i) + "\n")
 			lr = math.exp(i)
-			adam = Adadelta(lr=lr)
+			adam = Adamax(lr=lr)
 			model.compile(loss='categorical_crossentropy',
 		              optimizer=adam,
 		              metrics=['accuracy'])
