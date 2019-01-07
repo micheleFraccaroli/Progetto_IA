@@ -4,7 +4,7 @@ import time
 
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 
 import tensorflow as tf
 from keras import backend as K
@@ -62,12 +62,6 @@ class useNN:
         pyplot.show()
 
     def fire(self):
-            # data = np.load('mnist.npz')
-            # X = data['x_train']
-            # Y = data['y_train']
-            # X_test = data['x_test']
-            # Y_test = data['y_test']
-
         lm = Load_Module()
         X_test = lm.loading()
 
@@ -79,7 +73,7 @@ class useNN:
         model = model_from_json(loaded_model_json)
         model.load_weights('Weights/6-Decider_weights.h5')
 
-        labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'N']
+        labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
         plot_model(model, to_file='model.png')
 
         indices = np.argmax(model.predict(X_test[:20]), 1)
@@ -112,7 +106,6 @@ class useNN:
         #print("--- " + str(lab) + " ---\n")
         lab = [labels[x] for x in indices]
         self.show_imgs(X_test[:20], lab)
-
 
 if __name__ == "__main__":
 
