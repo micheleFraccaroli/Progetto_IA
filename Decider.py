@@ -39,7 +39,7 @@ class Decider:
 
     def launching(self):
         num_classes = 10
-        batch_size = 96
+        batch_size = 92
         epochs = 450
 
         # Convolutional Neural Network -----

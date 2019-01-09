@@ -4,3 +4,4 @@ gpu-*
 *.npz
 mnist.npz
 .vscode
+/Presentazione

@@ -6,7 +6,6 @@ from PIL import Image
 from keras.preprocessing import image
 
 class Load_Module:
-
 	def loading(self):
 		PATH = os.getcwd()
 		folder_path = PATH + "/DigitDataset/Images/Test/"

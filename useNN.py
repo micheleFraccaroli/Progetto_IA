@@ -4,7 +4,7 @@ import time
 
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import pyplot as plt
+from matplotlib import pyplot
 
 import tensorflow as tf
 from keras import backend as K
@@ -23,13 +23,13 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 def animate():
     done = 0
     while done != 4:
-        sys.stdout.write('\rPrediction running |')
+        sys.stdout.write('\rRecognition in progress |')
         time.sleep(0.1)
-        sys.stdout.write('\rPrediction running /')
+        sys.stdout.write('\rRecognition in progress /')
         time.sleep(0.1)
-        sys.stdout.write('\rPrediction running -')
+        sys.stdout.write('\rRecognition in progress -')
         time.sleep(0.1)
-        sys.stdout.write('\rPrediction running \\')
+        sys.stdout.write('\rRecognition in progress \\')
         time.sleep(0.1)
         done = done + 1
 
@@ -60,7 +60,7 @@ class useNN:
         # show the plot
         pyplot.subplots_adjust(hspace=1, wspace=1)
         pyplot.show()
-
+    
     def fire(self):
         lm = Load_Module()
         X_test = lm.loading()
@@ -74,7 +74,7 @@ class useNN:
         model.load_weights('Weights/6-Decider_weights.h5')
 
         labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-        plot_model(model, to_file='model.png')
+        #plot_model(model, to_file='model.png')
 
         indices = np.argmax(model.predict(X_test[:20]), 1)
         predictions = model.predict(X_test[:20])
@@ -101,9 +101,6 @@ class useNN:
         # print("\n-----------------------------------------------------\n")
 
         indices2 = np.argmax(predictions, 1)
-        # print("\nLabels: " + str(labels) + "\n")
-        #print("Indici2: " + str(indices2) + "\n")
-        #print("--- " + str(lab) + " ---\n")
         lab = [labels[x] for x in indices]
         self.show_imgs(X_test[:20], lab)
 
