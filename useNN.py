@@ -62,6 +62,8 @@ class useNN:
         pyplot.show()
     
     def fire(self):
+
+        # LOAD DATA AND MODEL -------------------------------------------------
         lm = Load_Module()
         X_test = lm.loading()
 
@@ -73,32 +75,12 @@ class useNN:
         model = model_from_json(loaded_model_json)
         model.load_weights('Weights/6-Decider_weights.h5')
 
+        # PLOTTING RESULT ----------------------------------------------------
+
         labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-        #plot_model(model, to_file='model.png')
 
         indices = np.argmax(model.predict(X_test[:20]), 1)
         predictions = model.predict(X_test[:20])
-        #print(bcolors.MAGENTA + "\n\nMODEL PREDICTIONS -------------------------------------\n " + bcolors.ENDC)
-        # print(str(predictions))
-        #print(bcolors.MAGENTA + "\n-----------------------------------------------------\n" + bcolors.ENDC)
-
-        # k = 0
-        # for i in range(len(predictions)):
-        # 	for j in predictions[i]:
-        # 		if(j > 0):
-        # 			if(k == 0):
-        # 				k = j
-        # 			else:
-        # 				for l in range(len(predictions[i])):
-        # 					if(l < 10):
-        # 						predictions[i][l] = 0.0000000e+00
-        # 					else:
-        # 						predictions[i][l] = 1.0000000e+00
-        # 				k = 0
-        # 				break
-
-        #print("MODEL PREDICTIONS POST WORK -------------------------------------\n " + str(predictions))
-        # print("\n-----------------------------------------------------\n")
 
         indices2 = np.argmax(predictions, 1)
         lab = [labels[x] for x in indices]
