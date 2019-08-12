@@ -3,7 +3,6 @@ import os
 from time import time
 
 import numpy as np
-
 import tensorflow as tf
 from Selector import Selector
 from tensorflow import keras
